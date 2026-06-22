@@ -1,140 +1,108 @@
-[G2 Scraper](https://apify.com/fatihtahta/g2-scraper?fpr=data)
+[G2 Scraper](https://apify.com/alizarin_refrigerator-owner/g2-scraper?fpr=data)
 
-# G2 Scraper | Fast & Reliable | $7 / 1k
-
-**Slug:** `fatihtahta/g2-scraper`
-**Price:** **$7.00 per 1,000 saved products**
-
-Turn any **G2 search results page** into clean, structured company/product data you can actually use. Just point at a search URL and get a deduped dataset for research, enrichment, and analysis.
+Scrape G2.com for B2B software product reviews, ratings, G2 Grid positions, and competitive intelligence. Extract satisfaction scores, market presence data, company size breakdowns, and alternative product recommendations. Essential for SaaS marketing and software market research.
 
 ---
 
-## What is G2?
+## Quick Start
 
-**G2** is one of the largest software marketplaces and review platforms. Companies list their products, collect verified user reviews, and are organized into categories (e.g., CRM, Marketing Automation, BI). Search pages typically show a product’s **name, vendor, rating, review count, description snippet, categories, logos**, and links to the product and seller pages. That’s exactly the information this actor captures—at scale.
-
----
-
-## What You Get (Features & Fields)
-
-This actor extracts the **public data shown on G2 search result pages** and saves each product row as a structured record:
-
-- **Identity & Links**
-
-- `productName`, `vendorName`, `itemType` (e.g., “Software”)
-- `productUrl`, `reviewsUrl`
-- `sellerName`, `sellerUrl`
-- `thumbImageUrl` (logo, not a placeholder)
-- **IDs & Rank**
-
-- `productId`, `productUuid`, `vendorId` *(when present in the page metadata)*
-- `resultRank` *(position in the list when available)*
-- **Ratings & Social Proof**
-
-- `ratingOutOfFive` (0–5), `ratingOutOfTen` (0–10)
-- `reviewCount`
-- **Content & Taxonomy**
-
-- `descriptionSnippet` (the visible summary on the card)
-- `relatedCategories` (names)
-- `categoriesDetailed` (array of `{ id, name, url }`)
-- **Provenance**
-
-- `searchUrl`, `query`, `scrapedAt`, `foundVia`
-
-**Use it for:**
-
-- Company & product **enrichment** (ratings, review counts, categories, logos).
-- **Market landscaping** and category mapping.
-- **Competitor lists** and shortlist generation.
-- Feeding downstream **research, scoring, and prioritization** workflows.
-
----
-
-## 📥 Input Configuration
-
-- `startUrl` *(string, required)*: A **G2 search results** URL
-Examples:
-
-- `https://www.g2.com/search?query=mention`
-- `https://www.g2.com/search?query=crm`
-- `maxItems` *(integer, optional)*: Hard cap on saved results.
-
-> Tip: Keep the URL simple. The actor will handle page numbers for you.
-
----
-
-## 📦 Input & Output Examples
-
-### Example Input
+### Test with Demo Mode (free, no API key needed)
 
 ```
 {
-  "startUrl": "[https://www.g2.com/search?query=mention](https://www.g2.com/search?query=mention)",
-  "maxItems": 120,
+  "demoMode": true,
+  "scrapeType": "category_search",
+  "productUrl": "https://www.g2.com/products/hubspot-crm/reviews",
+  "category": "CRM Software",
+  "maxReviewsPerProduct": 10,
+  "maxResults": 10,
   "proxyConfiguration": {
     "useApifyProxy": true,
-    "apifyProxyGroups": ["RESIDENTIAL"]
+    "apifyProxyGroups": [
+      "RESIDENTIAL"
+    ]
   }
 }
 ```
 
-### Example Output Item
-
-Each dataset item represents a **product row** from the search page:
+### Run with real data
 
 ```
 {
-  "scrapedAt": "2025-09-06T12:42:32.358Z",
-  "searchUrl": "https://www.g2.com/search?query=mention",
-  "query": "mention",
-  "itemType": "Software",
-  "productId": 20638,
-  "productUuid": "901093dc-bf92-47b1-a2d0-588fe09ba66f",
-  "vendorId": 16830,
-  "resultRank": 4,
-  "productName": "Mentionlytics",
-  "vendorName": "Mentionlytics Ltd",
-  "ratingOutOfFive": 4.9,
-  "ratingOutOfTen": 9.8,
-  "reviewCount": 90,
-  "descriptionSnippet": "Web & Social Media Monitoring tool that tracks mentions across the web and social platforms.",
-  "thumbImageUrl": "https://images.g2crowd.com/uploads/product/hd_favicon/374068704d3e8ad9268aa24d76a7029f/mentionlytics.svg",
-  "relatedCategories": [
-    "Media Monitoring",
-    "Social Media Analytics",
-    "Social Media Management",
-    "Social Media Listening Tools"
-  ],
-  "categoriesDetailed": [
-    {"id": 350, "name": "Media Monitoring", "url": "https://www.g2.com/categories/media-monitoring"},
-    {"id": 240, "name": "Social Media Analytics", "url": "https://www.g2.com/categories/social-media-analytics"}
-  ],
-  "sellerName": "Mentionlytics Ltd",
-  "sellerUrl": "https://www.g2.com/sellers/mentionlytics-ltd",
-  "productUrl": "https://www.g2.com/products/mentionlytics/reviews",
-  "reviewsUrl": "https://www.g2.com/products/mentionlytics/reviews",
-  "foundVia": "g2"
+  "demoMode": false,
+  "scrapeType": "category_search",
+  "productUrl": "https://www.g2.com/products/hubspot-crm/reviews",
+  "category": "CRM Software",
+  "companySize": "any",
+  "includeReviews": true,
+  "maxReviewsPerProduct": 10,
+  "includeAlternatives": false,
+  "includePricing": true,
+  "maxResults": 10,
+  "proxyConfiguration": {
+    "useApifyProxy": true,
+    "apifyProxyGroups": [
+      "RESIDENTIAL"
+    ]
+  },
+  "webhookPlatform": "custom"
 }
 ```
 
 ---
 
-## 💰 Pricing (Simple & Transparent)
+## Input Parameters
 
-- **$7.00 per 1,000 saved products.**
-Only pay for **successfully saved** items.
-Example: 10,000 products cost **(10,000 / 1,000) × $7.00 = $70.00**.
-
-## ⚖️ Legal
-
-This scraper extracts **publicly visible information** from G2 search pages. You’re responsible for how you use the data. If your use case involves personal data (e.g., user-generated content), ensure you have a lawful basis (GDPR/CCPA/etc.). When in doubt, talk to your counsel.
+| Parameter | Type | Default | Required | Description |
+| --- | --- | --- | --- | --- |
+| `scrapeType` | string | `"category_search"` | No | What to scrape. 'category_search' browses a G2 category page. 'product_profile' scrapes one product (requires Product URL or Product Name). 'alternatives' finds competitors for a product. |
+| `productUrl` | string | - | No | Full G2 product page URL. RECOMMENDED — paste the URL from your browser for best results. Example: [https://www.g2.com/products/hubspot-crm/reviews](https://www.g2.com/products/hubspot-crm/reviews) |
+| `productName` | string | - | No | Software product name to search on G2 (e.g. 'HubSpot CRM'). Only needed if you don't have a direct Product URL. |
+| `category` | string | `"CRM Software"` | No | G2 software category. Common values: CRM Software, Marketing Automation, Project Management, HR Software, Help Desk Software, Email Marketing, SEO Tools, Accounting, E-Commerce, Video Conferencing, Analytics, Website Builder, Live Chat, Chatbot, AI Writing |
+| `minRating` | number | - | No | Only include products with this rating or higher (1.0-5.0) |
+| `companySize` | string | `"any"` | No | Filter by company size |
+| `includeReviews` | boolean | `true` | No | Scrape user reviews for each product |
+| `maxReviewsPerProduct` | integer | `10` | No | Maximum reviews to collect per product. Keep low (10-25) for faster runs. |
+| `includeAlternatives` | boolean | `false` | No | Include competitor/alternative products |
+| `includePricing` | boolean | `true` | No | Include pricing information when available |
+| `maxResults` | integer | `10` | No | Maximum number of products to scrape. Start small (5-10) — G2 blocks large requests. |
+| `proxyConfiguration` | object | - | No | Proxy settings. Defaults to RESIDENTIAL proxies (recommended for G2). |
+| `demoMode` | boolean | `false` | No | When ON, returns realistic sample data WITHOUT hitting G2 (free, instant, no blocking). Turn OFF for real scraping. G2 has aggressive anti-bot protection — real scraping may get blocked. |
+| `webhookUrl` | string | - | No | URL to POST results when scraping completes (Zapier, Make, n8n, custom endpoint) |
+| `webhookPlatform` | string | `"custom"` | No | Platform-specific payload formatting |
+| `webhookHeaders` | object | - | No | Custom HTTP headers to send with webhook (JSON object) |
 
 ---
 
-## ❓ Support
+## Pricing
 
-Questions, bugs, or feature requests? Open an issue on the **Issues** tab of the actor page in Apify Console and it'll be solved around the clock.
+This actor uses **pay-per-event** billing:
 
-Happy Scraping!
-**Fatih**
+| Event | Description | Price |
+| --- | --- | --- |
+| Product Scraped | Each G2 product profile scraped | $0.06 |
+
+**Demo mode is free** -- no charges for sample data.
+
+---
+
+## Troubleshooting
+
+### "API error 429" or "Rate limit"
+
+Too many requests. Wait a minute and try again, or reduce the number of items per run.
+
+### No results or empty dataset
+
+Check the run log for error messages. Common causes:
+
+- Invalid input format (check the examples above)
+- The target data doesn't exist or is too small to track
+
+### How do I test without an API key?
+
+Enable **Demo Mode** in the input. This returns realistic sample data so you can verify the output format works for your workflow.
+
+---
+
+**Built by John Rippy | [Actor Arsenal](https://actorarsenal.com)**
